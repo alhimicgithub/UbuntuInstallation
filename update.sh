@@ -7,13 +7,15 @@ sudo ./VBoxLinuxAdditions.run
 sudo reboot
 
 ### Install Midnight Commander
-sudo apt-get install mc
+sudo apt-get install mc -y
 
 ### Install Gnome Shell
 sudo apt-get update
-sudo apt-get install compiz
-sudo apt-get install compizconfig-settings-manager compiz-plugins
-sudo apt-get install gnome-shell gnome-session-flashback ubuntu-gnome-desktop
+sudo apt-get install compiz -y
+sudo apt-get install compizconfig-settings-manager compiz-plugins -y
+sudo apt-get install gnome-shell gnome-session-flashback ubuntu-gnome-desktop -y
+sudo apt install compiz-gnome -y
+gtk-window-decorator --replace
 
 ### Split Primary Partition After Installation
 load from Live SD
@@ -23,7 +25,7 @@ boot original os
 run fsck -y /dev/sda1
 
 ### Install gparted
-sudo apt-get install gparted
+sudo apt-get install gparted -y
 
 
 ### Mount vmdk
