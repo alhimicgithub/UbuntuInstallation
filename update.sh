@@ -95,3 +95,10 @@
   rvm uninstall 2.3.0; rvm uninstall 2.3.1; rvm uninstall 2.3.3; rvm uninstall 2.4.1
   rvm install 2.3.0; rvm install 2.3.1; rvm install 2.3.3; rvm install 2.4.1
 
+### Install nvm
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  nvm --version
+
+### Install ImageMagic
+  sudo apt-get install imagemagick libmagickwand-dev
+
