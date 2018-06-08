@@ -25,6 +25,8 @@
 ### Install gparted
   sudo apt-get install gparted
 
+### INstall netstat
+  sudo apt-get install net-tools
 
 ### Mount vmdk
   # add file to other sata port in virtual box
@@ -99,6 +101,30 @@
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
   nvm --version
 
+### Install QT for installing capibara-webkit
+  sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x  
+
 ### Install ImageMagic
   sudo apt-get install imagemagick libmagickwand-dev
+
+### Install docker
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"
+  sudo apt-get update
+  # Check if approriate candidate found for instalation
+  apt-cache policy docker-ce
+  sudo apt-get install -y docker-ce
+  # Check that it is installed correctly
+  sudo systemctl status docker
+  # Add user to the docker group
+  sudo usermod -aG docker ${USER}
+  su - ${USER}
+  id -nG
+  # Chech test image
+  docker run hello-world
+  
+ ## Start RebbitMQ in Docker container
+  rmq_container_id=$(docker run -h localhost -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq) && sleep 5 && docker exec $rmq_container_id rabbitmq-plugins enable rabbitmq_management
+
+  
 
