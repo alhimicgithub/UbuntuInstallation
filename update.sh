@@ -14,6 +14,7 @@
   sudo apt-get install compiz
   sudo apt-get install compizconfig-settings-manager compiz-plugins
   sudo apt-get install gnome-shell gnome-session-flashback ubuntu-gnome-desktop
+  sudo apt-get install --no-install-recommends gnome-panel
 
 ### Split Primary Partition After Installation
   # load from Live SD
@@ -25,7 +26,7 @@
 ### Install gparted
   sudo apt-get install gparted
 
-### INstall netstat
+### Install netstat
   sudo apt-get install net-tools
 
 ### Mount vmdk
@@ -126,5 +127,15 @@
  ## Start RebbitMQ in Docker container
   rmq_container_id=$(docker run -h localhost -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq) && sleep 5 && docker exec $rmq_container_id rabbitmq-plugins enable rabbitmq_management
 
-  
+### Install Java
+  sudo apt install openjdk-11-jdk
+  sudo add-apt-repository ppa:webupd8team/java
+  sudo apt update
+  sudo apt install oracle-java9-set-default
+
+### Install DBVisualizer
+  dbvis_linux_10_0_4.sh
+
+### Create application shortcut
+  gnome-desktop-item-edit --create-new ~/Desktop
 
