@@ -39,7 +39,7 @@
 
 ### Install MySQL
     sudo apt-get update -y
-    sudo apt-get install mysql-server -y 
+    sudo apt-get install mysql-server -y
     mysql_secure_installation
 
  ## Change data dir place
@@ -57,7 +57,7 @@
   # add line 'skip-grant-tables ' to file
    sudo gedit /etc/mysql/mysql.conf.d/mysqld.cnf
    sudo /etc/init.d/mysql restart
-  # restart mysql with 
+  # restart mysql with
    mysqld --skip-grant-tables
   # enter mysql and reset password
    mysql -u root mysql
@@ -89,6 +89,8 @@
 
 ### Install nodejs
   sudo apt-get install nodejs
+  sudo apt-get install npm
+  npm install gulp
 
 ### Update RVM
   command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
@@ -103,7 +105,7 @@
   nvm --version
 
 ### Install QT for installing capibara-webkit
-  sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x  
+  sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 ### Install ImageMagic
   sudo apt-get install imagemagick libmagickwand-dev
@@ -123,9 +125,21 @@
   id -nG
   # Chech test image
   docker run hello-world
-  
+
  ## Start RebbitMQ in Docker container
-  rmq_container_id=$(docker run -h localhost -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq) && sleep 5 && docker exec $rmq_container_id rabbitmq-plugins enable rabbitmq_management
+  docker pull rabbitmq
+#  rmq_container_id=$(docker run --restart unless-stopped -h localhost -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq) && sleep 5 && docker exec $rmq_container_id rabbitmq-plugins enable rabbitmq_management
+  docker run --restart unless-stopped -h localhost -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3.6-management
+  docker run -h localhost -d -p 6379:6379 --restart unless-stopped redis
+ ## Setup Elasticsearch in Docker
+  docker pull docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+  docker pull docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0
+
+  docker run -d --restart unless-stopped -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms256m -Xmx256m" docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+  docker run -d --restart unless-stopped -p 389:389 -e SLAPD_PASSWORD="rootroot" -e SLAPD_DOMAIN="fidor.loc" -e SLAPD_ADDITIONAL_MODULES="memberof" -e SERVICE_NAME="openldap" -e docker-prod.fidor.intern:5000/boi/openldap
+
+  # Run Docker Swarm
+  docker swarm init
 
 ### Install Java
   sudo apt install openjdk-11-jdk
@@ -138,4 +152,66 @@
 
 ### Create application shortcut
   gnome-desktop-item-edit --create-new ~/Desktop
+
+### Install Postgress
+  sudo apt update
+  sudo apt install postgresql postgresql-contrib pgadmin3
+
+ ## Initiate postgres user
+  sudo -u postgres psql postgres
+  \password postgres
+
+ ## Migrate existing DBs
+  pg_dumpall > db.out
+  psql -f db.out postgres
+
+ ## Configure Remote Access
+  # change in file /var/lib/pgsql/10.4/data/postgresql.conf
+  listen_addresses = '*'
+  # change in file pg_hba.conf
+  host    all             all              0.0.0.0/0                       md5
+
+### Inatall Chrome
+  sudo apt install gdebi-core
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  sudo gdebi google-chrome-stable_current_amd64.deb
+
+ ## Install Postman
+  wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+  sudo tar -xzf postman.tar.gz -C /opt
+  apt-get install libgconf-2-4
+
+### Configure permissions to Cron
+  sudo chgrp crontab /usr/bin/crontab
+  sudo chmod g+s /usr/bin/crontab
+  sudo chmod 4774 -R /var/spool/cron
+  sudo chmod -R 600 /var/spool/cron/crontabs
+  sudo chmod 744 /var/run/crond.pid
+
+### Intstall Sublime
+ ## Install ctags for Sublime CTags
+  sudo apt-get install exuberant-ctags
+  # Go to your Sublime Text Packages directory and clone the repository using the command below:
+  git clone https://github.com/SublimeText/CTags
+
+ ## Sublime User config
+{
+  "file_exclude_patterns":
+  [
+    ".tags",
+    ".tags_sorted_by_file",
+    ".gemtags"
+  ],
+  "folder_exclude_patterns":
+  [
+    "tmp",
+    "log",
+    "coverage"
+  ],
+  "font_size": 12,
+  "tab_size": 2,
+  "translate_tabs_to_spaces": true,
+  "trim_trailing_white_space_on_save": true
+}
+
 
