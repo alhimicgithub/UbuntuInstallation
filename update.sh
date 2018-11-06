@@ -15,6 +15,11 @@
   sudo apt-get install compizconfig-settings-manager compiz-plugins
   sudo apt-get install gnome-shell gnome-session-flashback ubuntu-gnome-desktop
   sudo apt-get install --no-install-recommends gnome-panel
+  
+### Configure Compiz
+ ## Turn on Alt+Tab switcher
+ sudo apt-get install compizconfig-settings-manager
+ # go to System Tools > Preferences > CompizConfig, Go at the very bottom where it says Windows Management, Put a check-mark in Application Switcher
 
 ### Split Primary Partition After Installation
   # load from Live SD
